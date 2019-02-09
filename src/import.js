@@ -6,7 +6,7 @@ if (!fs.existsSync(dir)){
     fs.mkdirSync(dir);
 }
 
-const getSwaggerFileById = (item) => `aws apigateway get-export --parameters extensions='postman' --rest-api-id ${item.id} --stage-name prod --export-type swagger ./static/${item.name.split('-')[0]}/${item.name}.json`
+const getSwaggerFileById = (item) => `aws apigateway get-export --parameters extensions='postman' --rest-api-id ${item.id} --stage-name ${item.stage} --export-type swagger ./static/${item.stage}/${item.name}.json`
 
 const run = (cmd) => {
     return new Promise((resolve,reject)=>
@@ -26,7 +26,8 @@ try {
     const apis = JSON.parse(json);
     for (let i = 0; i < apis.items.length; i++) {
         const item = apis.items[i];
-        const path = dir + item.name.split('-')[0];
+        item.stage = item.name.slice(0,item.name.indexOf('-'))
+        const path = dir + item.stage;
         if (!fs.existsSync(path)){
             fs.mkdirSync(path);
         }
