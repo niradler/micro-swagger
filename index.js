@@ -73,7 +73,5 @@ router.get('/swagger', function (req, res) {
 });
 
 app.use('/', router);
-app.use((req, res, next) => {
-    next(createError(404));
-});
+
 app.listen(process.env.PORT);
