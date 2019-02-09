@@ -1,5 +1,8 @@
 # micro-swagger
 
+Import swagger files from aws api gateway, and create a swagger ui for them.
+* aws-cli need to be install and with the right permission to import swagger files from aws api gateway.
+
 ## Usage
 
 ```
