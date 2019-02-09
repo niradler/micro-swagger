@@ -6,30 +6,37 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>micro swagger</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/swagger-ui-dist@3.17.0/swagger-ui.css"
-    />
-    
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.css" />
+    <style>
+    .center {
+    margin-top: 7%;
+    display: flex;
+    justify-content: center;
+    }
+    </style>
 </head>
 <body>
-    <div id="swagger-ui"></div>
+<div class="container">
+<div class="center">
+    <aside class="menu">
+  <p class="menu-label">
+    Swagger Files
+  </p>
+  <ul class="menu-list">
+     <li><a>Team Settings</a></li>
+    <li>
+      <a>Manage Your Team</a>
+      <ul>
+        <li><a>Members</a></li>
+        <li><a>Plugins</a></li>
+        <li><a>Add a member</a></li>
+      </ul>
+    </li>
+  </ul>
+</aside>
+</div>
+</div>
 
-    <script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
-    <script>
-    window.onload = function() {
-        var ui = SwaggerUIBundle({
-          url: `./swagger.json`,
-          dom_id: "#swagger-ui",
-          presets: [
-            SwaggerUIBundle.presets.apis,
-            SwaggerUIBundle.SwaggerUIStandalonePreset
-          ]
-        });
-      window.ui = ui;
-    }
-  </script>
 
 </body>
 </html>

@@ -33,7 +33,10 @@ app.use((err, req, res, next) => {
 });
 
 router.get('/', function (req, res) {
-    res.render('index');
+    res.render('index',{configFileLocation:'/prod/p247j0i6mf.json'});
+});
+router.get('/swagger', function (req, res) {
+    res.render('swagger',{configFileLocation:'/prod/p247j0i6mf.json'});
 });
 app.use('/', router);
 // catch 404 and forward to error handler
