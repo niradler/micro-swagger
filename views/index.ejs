@@ -7,6 +7,7 @@
     <title>micro swagger</title>
 
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.css" />
+     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <style>
     .center {
     margin-top: 7%;
@@ -18,20 +19,22 @@
 <body>
 <div class="container">
 <div class="center">
+
     <aside class="menu">
   <p class="menu-label">
-    Swagger Files
+    <a href="/import"><i class="fas fa-sync-alt"></i></a> Swagger Files 
   </p>
   <ul class="menu-list">
-     <li><a>Team Settings</a></li>
-    <li>
-      <a>Manage Your Team</a>
-      <ul>
-        <li><a>Members</a></li>
-        <li><a>Plugins</a></li>
-        <li><a>Add a member</a></li>
-      </ul>
-    </li>
+   <% stages.types.forEach(function(stage){ %>
+    <li><a><%- stage %></a>
+<ul>
+<% for (i in stages[stage].names){ %>
+<li><a href="/swagger?path=<%- stages[stage].files[i] %>"><%- stages[stage].names[i] %></a>
+<% }; %>
+</ul>
+</li>
+  <% }); %>
+
   </ul>
 </aside>
 </div>

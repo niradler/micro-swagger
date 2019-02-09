@@ -3,11 +3,12 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const utils = require('./src/utils');
+const importFiles = require('./src/import');
 
 const app = express();
 const router = express.Router();
 
-// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -17,29 +18,55 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'static')));
 
-// error handler
+const handleError = (error, req, res) => {
+    res.locals.message = error.message;
+    res.locals.error = error;
+    res.status(error.status || 500);
+    res.render('error', {error});
+}
+
 app.use((err, req, res, next) => {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req
-        .app
-        .get('env') === 'development'
-        ? err
-        : {};
-
-    // render the error page
-    res.status(err.status || 500);
-    res.render('error');
+    handleError(error, req, res);
 });
 
-router.get('/', function (req, res) {
-    res.render('index',{configFileLocation:'/prod/p247j0i6mf.json'});
+router.get('/import', async(req, res) => {
+    try {
+        await importFiles();
+        res.redirect('/');
+    } catch (error) {
+        handleError(error, req, res);
+    }
+})
+router.get('/', async(req, res) => {
+    try {
+        const stages = {};
+        stages.types = await utils.getFolderFilesList('./static');
+        for (let stage of stages.types) {
+            const files = await utils.getFolderFilesList(`./static/${stage}`);
+            stages[stage] = {
+                files: files.map(f => `/${stage}/${f}`),
+                names: []
+            }
+            for (let pathToFile of stages[stage].files) {
+                const json = await utils.getFile('./static' + pathToFile);
+                const obj = JSON.parse(json);
+                stages[stage]
+                    .names
+                    .push(obj.info.title)
+            }
+        }
+        res.render('index', {stages});
+    } catch (error) {
+        handleError(error, req, res);
+    }
+
 });
+
 router.get('/swagger', function (req, res) {
-    res.render('swagger',{configFileLocation:'/prod/p247j0i6mf.json'});
+    const {path} = req.query
+    res.render('swagger', {configFileLocation: path});
 });
 app.use('/', router);
-// catch 404 and forward to error handler
 app.use((req, res, next) => {
     next(createError(404));
 });
