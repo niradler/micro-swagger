@@ -71,6 +71,7 @@ router.get('/swagger', function (req, res) {
     const {path} = req.query
     res.render('swagger', {configFileLocation: path});
 });
+
 app.use('/', router);
 app.use((req, res, next) => {
     next(createError(404));
