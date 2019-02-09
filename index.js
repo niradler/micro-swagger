@@ -41,6 +41,10 @@ router.get('/', async(req, res) => {
     try {
         const stages = {};
         stages.types = await utils.getFolderFilesList('./static');
+        if(stages.types.length == 0) {
+            await importFiles();  
+            stages.types = await utils.getFolderFilesList('./static'); 
+        }
         for (let stage of stages.types) {
             const files = await utils.getFolderFilesList(`./static/${stage}`);
             stages[stage] = {
