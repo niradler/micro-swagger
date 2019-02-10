@@ -3,7 +3,7 @@ const fs = require('fs');
 const readdirPromise = util.promisify(fs.readdir);
 const readFilePromise = util.promisify(fs.readFile);
 
-const getFolderFilesList = (path) => readdirPromise(path);
+const getFolderFilesList = (path) => readdirPromise(path).then(folders=>folders.filter(folder=>!['.DS_Store','assets'].includes(folder)) );
 
 const getFile = (path) => readFilePromise(path, 'utf8');
 

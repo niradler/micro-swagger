@@ -62,6 +62,7 @@ router.get('/', async(req, res) => {
         }
         res.render('index', {stages});
     } catch (error) {
+        console.log({error})
         handleError(error, req, res);
     }
 
