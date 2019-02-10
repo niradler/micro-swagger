@@ -6,7 +6,11 @@
   "scripts": {
     "start": "node ./index.js"
   },
-  "keywords": ["swagger","aws","lambda"],
+  "keywords": [
+    "swagger",
+    "aws",
+    "lambda"
+  ],
   "author": "Nir Adler",
   "license": "ISC",
   "dependencies": {

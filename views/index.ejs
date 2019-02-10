@@ -10,9 +10,7 @@
      <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <style>
     .center {
-    margin-top: 7%;
-    display: flex;
-    justify-content: center;
+    margin-top: 5%;
     }
     </style>
 </head>
@@ -32,8 +30,8 @@
   </p>
   <ul class="menu-list">
    <% stages.types.forEach(function(stage){ %>
-    <li><a><%- stage %></a>
-<ul>
+    <li><a onclick="revealStage('<%- stage %>')"><%- stage %></a>
+<ul style="display: none;" id="<%- stage %>">
 <% for (i in stages[stage].names){ %>
 <li><a href="/swagger?path=<%- stages[stage].files[i] %>"><%- stages[stage].names[i] %></a>
 <% }; %>
@@ -46,6 +44,16 @@
 </div>
 </div>
 
-
+<script>
+function revealStage(stage){
+  const list = document.querySelector('#' + stage);
+  if(list.style.display == 'none'){
+    list.style.display = 'block'
+  }
+  else{
+    list.style.display = 'none'
+  }
+}
+</script>
 </body>
 </html>
