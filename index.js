@@ -54,7 +54,7 @@ router.get('/', async(req, res) => {
                 names: []
             }
             for (let pathToFile of stages[stage].files) {
-                const json = await utils.getFile(stagesPath + pathToFile);
+                const json = await utils.getFile(stagesPath + pathToFile);                
                 const obj = JSON.parse(json);
                 stages[stage]
                     .names
@@ -71,7 +71,9 @@ router.get('/', async(req, res) => {
 
 router.get('/swagger', function (req, res) {
     const {path} = req.query
-    res.render('swagger', {configFileLocation: path});
+    const stagesPath = '/stages';
+    console.log(stagesPath + path)
+    res.render('swagger', {configFileLocation: stagesPath + path});
 });
 
 app.use('/', router);
