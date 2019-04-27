@@ -14,12 +14,13 @@
   "author": "Nir Adler",
   "license": "ISC",
   "dependencies": {
-    "cookie-parser": "^1.4.3",
+    "apigateway-export-tool": "0.0.9",
+    "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
-    "http-errors": "^1.7.1",
+    "http-errors": "^1.7.2",
     "morgan": "^1.9.1",
     "shelljs": "^0.8.3"
   }
