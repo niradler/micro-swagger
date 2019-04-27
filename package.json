@@ -1,6 +1,6 @@
 {
   "name": "micro-swagger",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "description": "Import swagger files from aws api gateway, and create a swagger ui for them.",
   "main": "index.js",
   "bin": {
@@ -14,6 +14,15 @@
     "swagger",
     "aws",
     "lambda"
+  ],
+  "files": [
+    "build/import.js",
+    "build/router.js",
+    "build/utils.js",
+    "index.js",
+    "package.json",
+    ".env",
+    "micro-swagger.js"
   ],
   "author": "Nir Adler",
   "license": "ISC",
