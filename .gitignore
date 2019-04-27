@@ -2,4 +2,3 @@ node_modules
 static/stages/
 static/stages/*
 .DS_Store
-build/

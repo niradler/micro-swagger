@@ -1,6 +1,6 @@
 {
   "name": "micro-swagger",
-  "version": "0.0.6",
+  "version": "0.0.9",
   "description": "Import swagger files from aws api gateway, and create a swagger ui for them.",
   "main": "index.js",
   "bin": {
@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "nodemon --exec babel-node ./index.js",
+    "publish": "mkdir build && npm run build && npm publish && rm -r build",
     "build": "babel src --out-dir build"
   },
   "keywords": [
@@ -15,18 +16,10 @@
     "aws",
     "lambda"
   ],
-  "files": [
-    "build/import.js",
-    "build/router.js",
-    "build/utils.js",
-    "index.js",
-    "package.json",
-    ".env",
-    "micro-swagger.js"
-  ],
   "author": "Nir Adler",
   "license": "ISC",
   "dependencies": {
+    "@babel/polyfill": "^7.4.4",
     "apigateway-export-tool": "0.0.9",
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
