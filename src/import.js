@@ -1,6 +1,7 @@
 const fs = require("fs");
+const path = require("path");
 const { getExportAndSave, getRestApis } = require("apigateway-export-tool");
-const dir = "./static/stages/";
+const dir = path.join(__dirname, "../static/stages/");
 
 if (!fs.existsSync(dir)) {
   fs.mkdirSync(dir);
@@ -12,13 +13,13 @@ const importFiles = async () => {
     for (let i = 0; i < apis.items.length; i++) {
       const item = apis.items[i];
       item.stage = item.name.slice(0, item.name.indexOf("-"));
-      const path = dir + item.stage;
-      if (!fs.existsSync(path)) {
-        fs.mkdirSync(path);
+      const pathToSave = dir + item.stage;
+      if (!fs.existsSync(pathToSave)) {
+        fs.mkdirSync(pathToSave);
       }
       await getExportAndSave(
         { restApiId: item.id, stageName: item.stage },
-        path
+        pathToSave
       );
     }
 

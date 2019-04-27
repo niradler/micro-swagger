@@ -3,6 +3,7 @@ const program = require("commander");
 const package = require("./package.json");
 const exec = require("child_process").exec;
 const dotenv = require("dotenv");
+const env = getEnv();
 const fs = require("fs");
 
 const getEnv = () => {
@@ -35,15 +36,17 @@ program
   .version(package.version)
   .command("start")
   .description("Start micro-swagger server.")
-  .option("-p, --port [port]", "port", 3055)
+  .option("-p, --port [port]", "port", env["PORT"])
   .action(args => {
     const { port } = args;
-    const env = getEnv();
+
     env["PORT"] = port;
     setEnv(env);
+
     run(`node ${__dirname}/index.js`)
       .then(o => console.log(o))
       .catch(e => console.log(e));
+    console.log(`micro-swagger running on port ${port}!`);
   });
 
 program.parse(process.argv);
