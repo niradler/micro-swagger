@@ -3,7 +3,6 @@ const program = require("commander");
 const package = require("./package.json");
 const exec = require("child_process").exec;
 const dotenv = require("dotenv");
-const env = getEnv();
 const fs = require("fs");
 
 const getEnv = () => {
@@ -12,6 +11,7 @@ const getEnv = () => {
   const config = dotenv.parse(buf);
   return config;
 };
+const env = getEnv();
 
 const setEnv = config => {
   let file = [];
