@@ -1,8 +1,11 @@
 {
   "name": "micro-swagger",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Import swagger files from aws api gateway, and create a swagger ui for them.",
   "main": "index.js",
+  "bin": {
+    "micro-swagger": "micro-swagger.js"
+  },
   "scripts": {
     "start": "node ./index.js"
   },
@@ -20,8 +23,6 @@
     "dotenv": "^6.2.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
-    "http-errors": "^1.7.2",
-    "morgan": "^1.9.1",
-    "shelljs": "^0.8.3"
+    "morgan": "^1.9.1"
   }
 }
