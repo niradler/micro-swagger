@@ -3,11 +3,9 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const utils = require("./src/utils");
-const importFiles = require("./src/import");
+const router = require("./build/router");
 
 const app = express();
-const router = express.Router();
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -27,49 +25,6 @@ const handleError = (error, req, res) => {
 
 app.use((err, req, res, next) => {
   handleError(error, req, res);
-});
-
-router.get("/import", async (req, res) => {
-  try {
-    await importFiles();
-    res.redirect("/");
-  } catch (error) {
-    handleError(error, req, res);
-  }
-});
-router.get("/", async (req, res) => {
-  try {
-    const stages = {};
-    const stagesPath = "./static/stages";
-    stages.types = await utils.getFolderFilesList(stagesPath);
-    if (stages.types.length == 0) {
-      await importFiles();
-      stages.types = await utils.getFolderFilesList(stagesPath);
-    }
-    for (let stage of stages.types) {
-      const files = await utils.getFolderFilesList(`${stagesPath}/${stage}`);
-      stages[stage] = {
-        files: files.map(f => `/${stage}/${f}`),
-        names: []
-      };
-      for (let pathToFile of stages[stage].files) {
-        const json = await utils.getFile(stagesPath + pathToFile);
-        const obj = JSON.parse(json);
-        stages[stage].names.push(obj.info.title);
-      }
-    }
-    res.render("index", { stages });
-  } catch (error) {
-    console.log({ error });
-    handleError(error, req, res);
-  }
-});
-
-router.get("/swagger", function(req, res) {
-  const { path } = req.query;
-  const stagesPath = "/stages";
-  console.log(stagesPath + path);
-  res.render("swagger", { configFileLocation: stagesPath + path });
 });
 
 app.use("/", router);

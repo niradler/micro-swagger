@@ -7,7 +7,8 @@
     "micro-swagger": "micro-swagger.js"
   },
   "scripts": {
-    "start": "node ./index.js"
+    "start": "nodemon --exec babel-node ./index.js",
+    "build": "babel src --out-dir build"
   },
   "keywords": [
     "swagger",
@@ -24,5 +25,12 @@
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "morgan": "^1.9.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.4.4",
+    "nodemon": "^1.18.11"
   }
 }
