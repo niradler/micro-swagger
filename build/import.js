@@ -4,13 +4,13 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-var fs = require("fs");
-
 var path = require("path");
 
 var _require = require("apigateway-export-tool"),
     getExportAndSave = _require.getExportAndSave,
     getRestApis = _require.getRestApis;
+
+var fs = require("fs-extra");
 
 var dir = "./static/stages/";
 
@@ -46,11 +46,7 @@ function () {
             item = apis.items[i];
             item.stage = item.name.slice(0, item.name.indexOf("-"));
             pathToSave = path.join(dir, item.stage);
-
-            if (!fs.existsSync(pathToSave)) {
-              fs.mkdirSync(pathToSave);
-            }
-
+            fs.ensureDirSync(path.join(process.cwd(), pathToSave));
             _context.next = 12;
             return getExportAndSave({
               restApiId: item.id,
