@@ -1,25 +1,35 @@
 "use strict";
 
-var util = require('util');
+var util = require("util");
 
-var fs = require('fs');
+var fs = require("fs");
 
 var readdirPromise = util.promisify(fs.readdir);
 var readFilePromise = util.promisify(fs.readFile);
+var fileExt = ".yml";
 
 var getFolderFilesList = function getFolderFilesList(path) {
   return readdirPromise(path).then(function (folders) {
     return folders.filter(function (folder) {
-      return !['.DS_Store'].includes(folder);
+      return !folder.includes(".");
+    });
+  });
+};
+
+var getFilesList = function getFilesList(path) {
+  return readdirPromise(path).then(function (files) {
+    return files.filter(function (file) {
+      return file.includes(fileExt);
     });
   });
 };
 
 var getFile = function getFile(path) {
-  return readFilePromise(path, 'utf8');
+  return readFilePromise(path, "utf8");
 };
 
 module.exports = {
   getFolderFilesList: getFolderFilesList,
-  getFile: getFile
+  getFile: getFile,
+  getFilesList: getFilesList
 };

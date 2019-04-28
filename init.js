@@ -1,18 +1,25 @@
-const config = require("./config");
-const fs = require("fs-extra");
-const xdgBasedir = require("xdg-basedir");
-const os = require("os");
-const path = require("path");
+"use strict";
 
-const init = () => {
+var config = require("./config");
+
+var fs = require("fs-extra");
+
+var xdgBasedir = require("xdg-basedir");
+
+var os = require("os");
+
+var path = require("path");
+
+var init = function init() {
   try {
-    const dir = path.join(xdgBasedir.data, "micro-swagger/static");
+    var dir = path.join(xdgBasedir.data, "micro-swagger/static");
     fs.ensureDirSync(dir);
     config.setEnv("static", dir);
   } catch (error) {
-    const dir = path.join(os.tmpdir(), "micro-swagger/static");
-    fs.ensureDirSync(dir);
-    config.setEnv("static", dir);
+    var _dir = path.join(os.tmpdir(), "micro-swagger/static");
+
+    fs.ensureDirSync(_dir);
+    config.setEnv("static", _dir);
   }
 };
 
