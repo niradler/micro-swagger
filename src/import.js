@@ -16,7 +16,8 @@ const importFiles = async () => {
       fs.ensureDirSync(pathToSave);
       await getExportAndSave(
         { restApiId: item.id, stageName: item.stage, exportType: "oas30" },
-        pathToSave
+        pathToSave,
+        { fixBasePath: true }
       );
     }
 

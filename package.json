@@ -1,6 +1,6 @@
 {
   "name": "micro-swagger",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "Import swagger files from aws api gateway, and create a swagger ui for them.",
   "main": "index.js",
   "bin": {
@@ -19,7 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
-    "apigateway-export-tool": "0.0.11",
+    "apigateway-export-tool": "0.0.12",
     "commander": "^2.20.0",
     "configstore": "^4.0.0",
     "cookie-parser": "^1.4.4",

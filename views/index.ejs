@@ -44,7 +44,7 @@
     <li><a onclick="revealStage('<%- stage %>')"><%- stage %></a>
 <ul style="display: none;" id="<%- stage %>">
 <% for (i in stages[stage].names){ %>
-<li><a href="/swagger?path=<%- stages[stage].files[i] %>"><%- stages[stage].names[i] %></a>
+<li style="display: flex;"><a href="/swagger?path=<%- stages[stage].files[i] %>"><%- stages[stage].names[i] %></a> <a href="/swagger-editor?path=<%- stages[stage].files[i] %>"><i class="fas fa-edit"></i></a>
 <% }; %>
 </ul>
 </li>

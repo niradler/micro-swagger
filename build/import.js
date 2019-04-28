@@ -51,7 +51,9 @@ function () {
               restApiId: item.id,
               stageName: item.stage,
               exportType: "oas30"
-            }, pathToSave);
+            }, pathToSave, {
+              fixBasePath: true
+            });
 
           case 13:
             i++;

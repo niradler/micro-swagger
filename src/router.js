@@ -56,6 +56,13 @@ router.get("/swagger", function(req, res) {
   const { path } = req.query;
   const stagesPath = "/stages";
 
+  res.render("swagger", { configFileLocation: stagesPath + path });
+});
+
+router.get("/swagger-editor", function(req, res) {
+  const { path } = req.query;
+  const stagesPath = "/stages";
+
   res.render("swagger-editor", { configFileLocation: stagesPath + path });
 });
 
