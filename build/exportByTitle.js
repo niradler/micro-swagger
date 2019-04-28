@@ -4,7 +4,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-var config = require("./config");
+var config = require("../config");
 
 var _require = require("apigateway-export-tool"),
     importDocumentation = _require.importDocumentation;
@@ -12,6 +12,8 @@ var _require = require("apigateway-export-tool"),
 var utils = require("./utils");
 
 var path = require("path");
+
+var fileExt = ".yml";
 
 var exportByTitle =
 /*#__PURE__*/
@@ -29,7 +31,7 @@ function () {
               return i.name === title;
             });
             _context.next = 4;
-            return utils.getFile(path.join(config.getEnv("static"), "stages", title.split("-")[0], title + ".yml"));
+            return utils.getFile(path.join(config.getEnv("static"), "stages", title.split("-")[0], title + fileExt));
 
           case 4:
             file = _context.sent;

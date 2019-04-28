@@ -6,7 +6,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var path = require("path");
 
-var config = require("./config");
+var config = require("../config");
 
 var _require = require("apigateway-export-tool"),
     getExportAndSave = _require.getExportAndSave,

@@ -1,21 +1,17 @@
-"use strict";
+const Configstore = require("configstore");
+const pkg = require("./package.json");
+const conf = new Configstore(pkg.name, {});
 
-var Configstore = require("configstore");
-
-var pkg = require("./package.json");
-
-var conf = new Configstore(pkg.name, {});
-
-var getEnv = function getEnv(key) {
+const getEnv = key => {
   return conf.get(key);
 };
 
-var setEnv = function setEnv(key, value) {
+const setEnv = (key, value) => {
   conf.set(key, value);
 };
 
 module.exports = {
-  getEnv: getEnv,
-  setEnv: setEnv,
+  getEnv,
+  setEnv,
   all: conf.all
 };

@@ -5,7 +5,8 @@ const exportByTitle = require("./exportByTitle");
 const router = require("express").Router();
 const fs = require("fs");
 const Path = require("path");
-const config = require("./config");
+const config = require("../config");
+const fileExt = ".yml";
 
 const handleError = (error, req, res) => {
   res.locals.message = error.message;
@@ -72,7 +73,7 @@ router.get("/update", async (req, res) => {
     const { path } = req.query;
     let title = path.split("/");
     title = title[title.length - 1];
-    title = title.replace(".yml", "");
+    title = title.replace(fileExt, "");
     await exportByTitle(title, Path.join(config.getEnv("static"), path));
     await importFiles();
     res.redirect("/");

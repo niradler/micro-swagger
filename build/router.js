@@ -18,7 +18,9 @@ var fs = require("fs");
 
 var Path = require("path");
 
-var config = require("./config");
+var config = require("../config");
+
+var fileExt = ".yml";
 
 var handleError = function handleError(error, req, res) {
   res.locals.message = error.message;
@@ -297,7 +299,7 @@ function () {
             path = req.query.path;
             title = path.split("/");
             title = title[title.length - 1];
-            title = title.replace(".yml", "");
+            title = title.replace(fileExt, "");
             _context4.next = 7;
             return exportByTitle(title, Path.join(config.getEnv("static"), path));
 
