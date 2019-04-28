@@ -1,15 +1,34 @@
 # micro-swagger
 
 Import swagger files from aws api gateway, and create a swagger ui for them.
-* aws-cli need to be install and with the right permission to import swagger files from aws api gateway.
 
 ## Usage
 
 ```
-git clone https://github.com/niradler/micro-swagger.git
-cd micro-swagger
-npm i
-npm run start
+npm i -g micro-swagger
 ```
-* default port is 3055 (can be configure in the .env file)
+
+```
+Usage: micro-swagger [options] [command]
+
+Options:
+  -V, --version    output the version number
+  -h, --help       output usage information
+
+Commands:
+  start [options]  Start micro-swagger server.
+```
+
+```
+micro-swagger start -p 3055
+```
+
 * visit http://localhost:3055
+
+### AWS credentials
+
+if you have aws cli configure on your machine you dont need to worry about that,
+if not you can setup the credentials using one of this two options:
+
+- Loaded from the shared credentials file (~/.aws/credentials)
+- Loaded from environment variables (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
