@@ -6,17 +6,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var path = require("path");
 
+var config = require("../config");
+
 var _require = require("apigateway-export-tool"),
     getExportAndSave = _require.getExportAndSave,
     getRestApis = _require.getRestApis;
 
 var fs = require("fs-extra");
 
-var dir = "./static/stages/";
-
-if (!fs.existsSync(dir)) {
-  fs.mkdirSync(dir);
-}
+var dir = config.getEnv("static");
 
 var importFiles =
 /*#__PURE__*/
@@ -45,8 +43,8 @@ function () {
 
             item = apis.items[i];
             item.stage = item.name.slice(0, item.name.indexOf("-"));
-            pathToSave = path.join(dir, item.stage);
-            fs.ensureDirSync(path.join(process.cwd(), pathToSave));
+            pathToSave = path.join(dir, "stages/".concat(item.stage));
+            fs.ensureDirSync(pathToSave);
             _context.next = 12;
             return getExportAndSave({
               restApiId: item.id,
