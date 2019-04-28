@@ -141,6 +141,7 @@
   </script>
   <script>
   window.onload = function() {
+    const lastState = localStorage.setItem("swagger-editor-content","");
     var editor = SwaggerEditorBundle({
         url: '<%= configFileLocation %>',
   dom_id: "#swagger-ui",
