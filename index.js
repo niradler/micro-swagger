@@ -1,9 +1,13 @@
-require("dotenv").config();
+const config = require("./config");
+const init = require("./init");
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const router = require("./src/router");
+const router = require("./build/router");
+
+init();
+const staticPath = config.getEnv("static");
 
 const app = express();
 
@@ -14,7 +18,7 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "static")));
+app.use(express.static(staticPath));
 
 const handleError = (error, req, res) => {
   res.locals.message = error.message;
@@ -29,6 +33,6 @@ app.use((err, req, res, next) => {
 
 app.use("/", router);
 
-app.listen(process.env.PORT, () =>
-  console.log(`micro-swagger running on port ${process.env.PORT}!`)
-);
+const port = config.getEnv("port") || 3055;
+
+app.listen(port, () => console.log(`micro-swagger running on port ${port}!`));

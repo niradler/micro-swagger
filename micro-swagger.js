@@ -1,26 +1,11 @@
 #!/usr/bin/env node
+const config = require("./config");
 const program = require("commander");
 const package = require("./package.json");
 const exec = require("child_process").exec;
-const dotenv = require("dotenv");
-const fs = require("fs");
+const init = require("./init");
 
-const getEnv = () => {
-  const env = fs.readFileSync(__dirname + "/.env");
-  const buf = Buffer.from(env);
-  const config = dotenv.parse(buf);
-  return config;
-};
-const env = getEnv();
-
-const setEnv = config => {
-  let file = [];
-  for (const key in config) {
-    file.push(`${key}=${config[key]}`);
-  }
-  file.join("\n");
-  fs.writeFileSync(__dirname + "/.env", file);
-};
+init();
 
 const run = cmd =>
   new Promise((resolve, reject) => {
@@ -36,12 +21,11 @@ program
   .version(package.version)
   .command("start")
   .description("Start micro-swagger server.")
-  .option("-p, --port [port]", "port", env["PORT"])
+  .option("-p, --port [port]", "port", config.getEnv("port"))
   .action(args => {
     const { port } = args;
 
-    env["PORT"] = port;
-    setEnv(env);
+    config.setEnv("port", port);
 
     run(`node ${__dirname}/index.js`)
       .then(o => console.log(o))
