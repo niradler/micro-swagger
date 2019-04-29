@@ -2,7 +2,7 @@ const config = require("../config");
 const { importDocumentation } = require("apigateway-export-tool");
 const utils = require("./utils");
 const path = require("path");
-const fileExt = ".yml";
+const fileExt = ".json";
 
 const exportByTitle = async (title, pathToFile) => {
   const apis = config.getEnv("apis");
