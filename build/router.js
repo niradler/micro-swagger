@@ -20,7 +20,7 @@ var Path = require("path");
 
 var config = require("../config");
 
-var fileExt = ".yml";
+var fileExt = ".json";
 
 var handleError = function handleError(error, req, res) {
   res.locals.message = error.message;

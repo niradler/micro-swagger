@@ -2,7 +2,7 @@ const util = require("util");
 const fs = require("fs");
 const readdirPromise = util.promisify(fs.readdir);
 const readFilePromise = util.promisify(fs.readFile);
-const fileExt = ".yml";
+const fileExt = ".json";
 
 const getFolderFilesList = path =>
   readdirPromise(path).then(folders =>
