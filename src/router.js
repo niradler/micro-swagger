@@ -29,7 +29,7 @@ router.get("/", async (req, res) => {
       await importFiles();
       data = config.getEnv("data");
     }
-    let stages = data.map(d => d.stage);
+    let stages = [...new Set(data.map(d => d.stage))];
     const stageToFiles = data.reduce(
       (obj, d) =>
         obj[d.stage]
