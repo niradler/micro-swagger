@@ -29,7 +29,6 @@
     "fs-extra": "^7.0.1",
     "morgan": "^1.9.1",
     "open": "^6.2.0",
-    "swagger-editor-dist": "^3.6.28",
     "xdg-basedir": "^3.0.0"
   },
   "devDependencies": {
