@@ -1,6 +1,6 @@
 {
   "name": "micro-swagger",
-  "version": "0.0.21",
+  "version": "0.1.0",
   "description": "Import swagger files from aws api gateway, and create a swagger ui for them.",
   "main": "index.js",
   "bin": {
