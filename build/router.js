@@ -54,7 +54,9 @@ function () {
             return importFiles();
 
           case 3:
-            res.redirect("/");
+            res.json({
+              status: "success!"
+            });
             _context.next = 9;
             break;
 
@@ -157,7 +159,9 @@ router.get("/swagger-editor", function (req, res) {
 router.put("/editor", function (req, res) {
   var path = req.query.path;
   fs.writeFileSync(Path.join(config.getEnv("static"), path), Object.keys(req.body)[0]);
-  res.send("ok");
+  res.json({
+    status: "success!"
+  });
 });
 router.get("/update",
 /*#__PURE__*/

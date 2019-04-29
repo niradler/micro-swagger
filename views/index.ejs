@@ -43,6 +43,7 @@
           <a onclick="refreshFiles()"><i id="loader" class="fas fa-sync-alt"></i></a> Swagger Files
         </p>
 
+        <% if (stages && stages.length > 0) { %>
         <ul class="menu-list">
           <% stages.forEach(function(stage){ %>
           <li><a onclick="revealStage('<%- stage %>')"><%- stage %></a>
@@ -58,6 +59,14 @@
           </li>
           <% }); %>
         </ul>
+        <% } %>
+
+        <% if (stages && stages.length === 0) { %>
+        <div class="content">
+          <p class="has-text-centered">Stages not found! <a onclick="refreshFiles()">Refresh</a></p>
+        </div>
+
+        <% } %>
 
       </aside>
     </div>
