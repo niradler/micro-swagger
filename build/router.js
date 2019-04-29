@@ -83,56 +83,46 @@ function () {
   var _ref2 = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee2(req, res) {
-    var data, stages, stageToFiles;
+    var data, refresh, stages, stageToFiles;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _context2.prev = 0;
-            data = config.getEnv("data");
+            try {
+              data = config.getEnv("data");
+              refresh = false;
 
-            if (data) {
-              _context2.next = 6;
-              break;
+              if (!data) {
+                refresh = true;
+              }
+
+              stages = _toConsumableArray(new Set(data.map(function (d) {
+                return d.stage;
+              })));
+              stageToFiles = data.reduce(function (obj, d) {
+                return obj[d.stage] ? _objectSpread({}, obj, _defineProperty({}, d.stage, [].concat(_toConsumableArray(obj[d.stage]), [d]))) : _objectSpread({}, obj, _defineProperty({}, d.stage, [d]));
+              }, {});
+              stages.filter(function (s) {
+                return stageToFiles[s];
+              });
+              res.render("index", {
+                stages: stages,
+                stageToFiles: stageToFiles,
+                refresh: refresh
+              });
+            } catch (error) {
+              console.log({
+                error: error
+              });
+              handleError(error, req, res);
             }
 
-            _context2.next = 5;
-            return importFiles();
-
-          case 5:
-            data = config.getEnv("data");
-
-          case 6:
-            stages = _toConsumableArray(new Set(data.map(function (d) {
-              return d.stage;
-            })));
-            stageToFiles = data.reduce(function (obj, d) {
-              return obj[d.stage] ? _objectSpread({}, obj, _defineProperty({}, d.stage, [].concat(_toConsumableArray(obj[d.stage]), [d]))) : _objectSpread({}, obj, _defineProperty({}, d.stage, [d]));
-            }, {});
-            stages.filter(function (s) {
-              return stageToFiles[s];
-            });
-            res.render("index", {
-              stages: stages,
-              stageToFiles: stageToFiles
-            });
-            _context2.next = 16;
-            break;
-
-          case 12:
-            _context2.prev = 12;
-            _context2.t0 = _context2["catch"](0);
-            console.log({
-              error: _context2.t0
-            });
-            handleError(_context2.t0, req, res);
-
-          case 16:
+          case 1:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[0, 12]]);
+    }, _callee2);
   }));
 
   return function (_x3, _x4) {
