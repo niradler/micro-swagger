@@ -6,12 +6,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>micro swagger</title>
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swagger-ui-dist@3.17.0/swagger-ui.css" />
 
+  <style>
+    .swagger-ui pre.version {
+      padding: 0;
+      background: #7d8492;
+    }
+
+    .swagger-ui pre.base-url {
+      background: white;
+    }
+  </style>
 </head>
 
 <body>
+  <section class="hero is-dark">
+    <div class="hero-body">
+      <div class="container">
+        <a href="/">
+          <h1 class="title">
+            micro swagger
+          </h1>
+        </a>
+        <h2 class="subtitle">
+          Amazon API Gateway documentations ui.
+        </h2>
+      </div>
+    </div>
+  </section>
   <div id="swagger-ui"></div>
 
   <script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>

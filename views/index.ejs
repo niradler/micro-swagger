@@ -14,34 +14,35 @@
   <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   <style>
     .top {
-      margin-top: 5%;
-    }
-
-    .center {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      margin-top: 4%;
     }
   </style>
 </head>
 
 <body>
-  <nav class="navbar center" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-      <a class="" href="/">
-        <h1 class="title">micro swagger</h1>
-        <!-- <img src="/assets/logo.png"> -->
-      </a>
+
+  <section class="hero is-dark">
+    <div class="hero-body">
+      <div class="container">
+        <a href="/">
+          <h1 class="title">
+            micro swagger
+          </h1>
+        </a>
+        <h2 class="subtitle">
+          Amazon API Gateway documentations ui.
+        </h2>
+      </div>
     </div>
-  </nav>
+  </section>
+
   <div class="container">
-
     <div class="top">
-
       <aside class="menu">
         <p class="menu-label">
-          <a href="/import"><i class="fas fa-sync-alt"></i></a> Swagger Files
+          <a onclick="refreshFiles()"><i id="loader" class="fas fa-sync-alt"></i></a> Swagger Files
         </p>
+
         <ul class="menu-list">
           <% stages.forEach(function(stage){ %>
           <li><a onclick="revealStage('<%- stage %>')"><%- stage %></a>
@@ -56,22 +57,45 @@
             </ul>
           </li>
           <% }); %>
-
         </ul>
+
       </aside>
     </div>
+  </div>
 
-    <script>
-      function revealStage(stage) {
-        const list = document.querySelector('#' + stage);
-        if (list.style.display == 'none') {
-          list.style.display = 'block';
-        }
-        else {
-          list.style.display = 'none';
-        }
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <script>
+    function isLoading(status) {
+      if (status) {
+        document.querySelector("#loader").classList.add("fa-spin")
+      } else {
+        document.querySelector("#loader").classList.remove("fa-spin")
       }
-    </script>
+    }
+
+    function refreshFiles() {
+      isLoading(true);
+      axios.get('/import')
+        .then(function (response) {
+          isLoading(false);
+        })
+        .catch(function (error) {
+          alert(error.message);
+          isLoading(false);
+        });
+    }
+
+    function revealStage(stage) {
+      const list = document.querySelector('#' + stage);
+      if (list.style.display == 'none') {
+        list.style.display = 'block';
+      }
+      else {
+        list.style.display = 'none';
+      }
+    }
+  </script>
 </body>
 
 </html>

@@ -16,7 +16,9 @@ const handleError = (error, req, res) => {
 router.get("/import", async (req, res) => {
   try {
     await importFiles();
-    res.redirect("/");
+    res.json({
+      status: "success!"
+    });
   } catch (error) {
     handleError(error, req, res);
   }
@@ -65,7 +67,9 @@ router.put("/editor", function(req, res) {
     Path.join(config.getEnv("static"), path),
     Object.keys(req.body)[0]
   );
-  res.send("ok");
+  res.json({
+    status: "success!"
+  });
 });
 
 router.get("/update", async (req, res) => {
