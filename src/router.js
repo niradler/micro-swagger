@@ -26,10 +26,10 @@ router.get("/import", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    let data = config.getEnv("data");
+    const data = config.getEnv("data");
+    let refresh = false;
     if (!data) {
-      await importFiles();
-      data = config.getEnv("data");
+      refresh = true;
     }
     let stages = [...new Set(data.map(d => d.stage))];
     const stageToFiles = data.reduce(
@@ -41,7 +41,7 @@ router.get("/", async (req, res) => {
     );
     stages.filter(s => stageToFiles[s]);
 
-    res.render("index", { stages, stageToFiles });
+    res.render("index", { stages, stageToFiles, refresh });
   } catch (error) {
     console.log({ error });
     handleError(error, req, res);

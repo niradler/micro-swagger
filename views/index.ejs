@@ -75,6 +75,10 @@
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
   <script>
+    let refreshNeeded = <%= refresh  %>;
+
+    if (refreshNeeded) refreshFiles();
+
     function isLoading(status) {
       if (status) {
         document.querySelector("#loader").classList.add("fa-spin")
