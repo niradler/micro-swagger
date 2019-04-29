@@ -8,7 +8,8 @@
   },
   "scripts": {
     "start": "nodemon --exec babel-node ./index.js",
-    "build": "babel src --out-dir ./build"
+    "build": "babel src --out-dir ./build",
+    "deploy": "npm run build && npm publish"
   },
   "keywords": [
     "swagger",
