@@ -21,7 +21,7 @@ program
   .version(package.version)
   .command("start")
   .description("Start micro-swagger server.")
-  .option("-p, --port [port]", "port", config.getEnv("port"))
+  .option("-p, --port [port]", "port", config.getEnv("port") || 3055)
   .action(args => {
     const { port } = args;
 

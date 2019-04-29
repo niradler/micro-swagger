@@ -7,11 +7,11 @@ const path = require("path");
 const init = () => {
   try {
     const dir = path.join(xdgBasedir.data, "micro-swagger/static");
-    fs.ensureDirSync(dir);
+    fs.ensureDirSync(path.join(dir, "stages"));
     config.setEnv("static", dir);
   } catch (error) {
     const dir = path.join(os.tmpdir(), "micro-swagger/static");
-    fs.ensureDirSync(dir);
+    fs.ensureDirSync(path.join(dir, "stages"));
     config.setEnv("static", dir);
   }
 };

@@ -5,6 +5,8 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const router = require("./build/router");
+const cors = require("cors");
+const open = require("open");
 
 init();
 const staticPath = config.getEnv("static");
@@ -14,6 +16,7 @@ const app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
+app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -35,4 +38,12 @@ app.use("/", router);
 
 const port = config.getEnv("port") || 3055;
 
-app.listen(port, () => console.log(`micro-swagger running on port ${port}!`));
+app.listen(port, async () => {
+  try {
+    console.log(`micro-swagger running on port ${port}!`);
+
+    await open("http://localhost:" + port);
+  } catch (error) {
+    console.error("failed to open automatically.");
+  }
+});

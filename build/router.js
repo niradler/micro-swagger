@@ -10,7 +10,26 @@ var utils = require("./utils");
 
 var importFiles = require("./import");
 
+var exportByTitle = require("./exportByTitle");
+
 var router = require("express").Router();
+
+var fs = require("fs");
+
+var Path = require("path");
+
+var config = require("../config");
+
+var fileExt = ".yml";
+
+var handleError = function handleError(error, req, res) {
+  res.locals.message = error.message;
+  res.locals.error = error;
+  res.status(error.status || 500);
+  res.render("error", {
+    error: error
+  });
+};
 
 router.get("/import",
 /*#__PURE__*/
@@ -62,7 +81,7 @@ function () {
           case 0:
             _context3.prev = 0;
             stages = {};
-            stagesPath = "./static/stages";
+            stagesPath = Path.join(config.getEnv("static"), "stages");
             _context3.next = 5;
             return utils.getFolderFilesList(stagesPath);
 
@@ -100,7 +119,7 @@ function () {
                     case 0:
                       stage = _step.value;
                       _context2.next = 3;
-                      return utils.getFolderFilesList("".concat(stagesPath, "/").concat(stage));
+                      return utils.getFilesList("".concat(stagesPath, "/").concat(stage));
 
                     case 3:
                       files = _context2.sent;
@@ -256,9 +275,65 @@ function () {
 router.get("/swagger", function (req, res) {
   var path = req.query.path;
   var stagesPath = "/stages";
-  console.log(stagesPath + path);
   res.render("swagger", {
     configFileLocation: stagesPath + path
   });
 });
+router.get("/swagger-editor", function (req, res) {
+  var path = req.query.path;
+  var stagesPath = "/stages";
+  res.render("swagger-editor", {
+    configFileLocation: stagesPath + path
+  });
+});
+router.put("/editor", function (req, res) {
+  var path = req.query.path;
+  fs.writeFileSync(Path.join(config.getEnv("static"), path), Object.keys(req.body)[0]);
+  res.send("ok");
+});
+router.get("/update",
+/*#__PURE__*/
+function () {
+  var _ref3 = _asyncToGenerator(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee3(req, res) {
+    var path, title;
+    return regeneratorRuntime.wrap(function _callee3$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            _context4.prev = 0;
+            path = req.query.path;
+            title = path.split("/");
+            title = title[title.length - 1];
+            title = title.replace(fileExt, "");
+            _context4.next = 7;
+            return exportByTitle(title, Path.join(config.getEnv("static"), path));
+
+          case 7:
+            _context4.next = 9;
+            return importFiles();
+
+          case 9:
+            res.redirect("/");
+            _context4.next = 15;
+            break;
+
+          case 12:
+            _context4.prev = 12;
+            _context4.t0 = _context4["catch"](0);
+            handleError(_context4.t0, req, res);
+
+          case 15:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, _callee3, null, [[0, 12]]);
+  }));
+
+  return function (_x5, _x6) {
+    return _ref3.apply(this, arguments);
+  };
+}());
 module.exports = router;

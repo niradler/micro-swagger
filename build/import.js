@@ -33,11 +33,12 @@ function () {
 
           case 3:
             apis = _context.sent;
+            config.setEnv("apis", apis.items);
             i = 0;
 
-          case 5:
+          case 6:
             if (!(i < apis.items.length)) {
-              _context.next = 15;
+              _context.next = 16;
               break;
             }
 
@@ -45,31 +46,34 @@ function () {
             item.stage = item.name.slice(0, item.name.indexOf("-"));
             pathToSave = path.join(dir, "stages/".concat(item.stage));
             fs.ensureDirSync(pathToSave);
-            _context.next = 12;
+            _context.next = 13;
             return getExportAndSave({
               restApiId: item.id,
-              stageName: item.stage
-            }, pathToSave);
+              stageName: item.stage,
+              exportType: "oas30"
+            }, pathToSave, {
+              fixBasePath: true
+            });
 
-          case 12:
+          case 13:
             i++;
-            _context.next = 5;
+            _context.next = 6;
             break;
 
-          case 15:
+          case 16:
             return _context.abrupt("return", true);
 
-          case 18:
-            _context.prev = 18;
+          case 19:
+            _context.prev = 19;
             _context.t0 = _context["catch"](0);
             throw _context.t0;
 
-          case 21:
+          case 22:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 18]]);
+    }, _callee, null, [[0, 19]]);
   }));
 
   return function importFiles() {
