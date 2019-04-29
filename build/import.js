@@ -49,8 +49,7 @@ function () {
             _context.next = 13;
             return getExportAndSave({
               restApiId: item.id,
-              stageName: item.stage,
-              exportType: "oas30"
+              stageName: item.stage
             }, pathToSave, {
               fixBasePath: true
             });

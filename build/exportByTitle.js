@@ -13,7 +13,7 @@ var utils = require("./utils");
 
 var path = require("path");
 
-var fileExt = ".yml";
+var fileExt = ".json";
 
 var exportByTitle =
 /*#__PURE__*/

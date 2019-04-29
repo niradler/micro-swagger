@@ -6,7 +6,7 @@ const router = require("express").Router();
 const fs = require("fs");
 const Path = require("path");
 const config = require("../config");
-const fileExt = ".yml";
+const fileExt = ".json";
 
 const handleError = (error, req, res) => {
   res.locals.message = error.message;
