@@ -9,7 +9,7 @@
   "scripts": {
     "start": "nodemon --exec babel-node ./src/index.js",
     "build": "babel src --out-dir ./build",
-    "deploy": "npm run build && git add . && git commit -am \"release\" && git push && npm version patch && npm publish"
+    "deploy": "npm run build && npm version patch && npm publish"
   },
   "keywords": [
     "swagger",
