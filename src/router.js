@@ -20,6 +20,7 @@ router.get("/import", async (req, res) => {
       status: "success!"
     });
   } catch (error) {
+    console.log({ error });
     handleError(error, req, res);
   }
 });
@@ -28,18 +29,22 @@ router.get("/", async (req, res) => {
   try {
     const data = config.getEnv("data");
     let refresh = false;
+    let stages = [];
+    let stageToFiles = {};
     if (!data) {
       refresh = true;
+      config.setEnv("data", []);
+    } else {
+      stages = [...new Set(data.map(d => d.stage))];
+      stageToFiles = data.reduce(
+        (obj, d) =>
+          obj[d.stage]
+            ? { ...obj, [d.stage]: [...obj[d.stage], d] }
+            : { ...obj, [d.stage]: [d] },
+        {}
+      );
+      stages = stages.filter(s => stageToFiles[s]);
     }
-    let stages = [...new Set(data.map(d => d.stage))];
-    const stageToFiles = data.reduce(
-      (obj, d) =>
-        obj[d.stage]
-          ? { ...obj, [d.stage]: [...obj[d.stage], d] }
-          : { ...obj, [d.stage]: [d] },
-      {}
-    );
-    stages.filter(s => stageToFiles[s]);
 
     res.render("index", { stages, stageToFiles, refresh });
   } catch (error) {

@@ -57,15 +57,18 @@ function () {
             res.json({
               status: "success!"
             });
-            _context.next = 9;
+            _context.next = 10;
             break;
 
           case 6:
             _context.prev = 6;
             _context.t0 = _context["catch"](0);
+            console.log({
+              error: _context.t0
+            });
             handleError(_context.t0, req, res);
 
-          case 9:
+          case 10:
           case "end":
             return _context.stop();
         }
@@ -91,20 +94,24 @@ function () {
             try {
               data = config.getEnv("data");
               refresh = false;
+              stages = [];
+              stageToFiles = {};
 
               if (!data) {
                 refresh = true;
+                config.setEnv("data", []);
+              } else {
+                stages = _toConsumableArray(new Set(data.map(function (d) {
+                  return d.stage;
+                })));
+                stageToFiles = data.reduce(function (obj, d) {
+                  return obj[d.stage] ? _objectSpread({}, obj, _defineProperty({}, d.stage, [].concat(_toConsumableArray(obj[d.stage]), [d]))) : _objectSpread({}, obj, _defineProperty({}, d.stage, [d]));
+                }, {});
+                stages = stages.filter(function (s) {
+                  return stageToFiles[s];
+                });
               }
 
-              stages = _toConsumableArray(new Set(data.map(function (d) {
-                return d.stage;
-              })));
-              stageToFiles = data.reduce(function (obj, d) {
-                return obj[d.stage] ? _objectSpread({}, obj, _defineProperty({}, d.stage, [].concat(_toConsumableArray(obj[d.stage]), [d]))) : _objectSpread({}, obj, _defineProperty({}, d.stage, [d]));
-              }, {});
-              stages.filter(function (s) {
-                return stageToFiles[s];
-              });
               res.render("index", {
                 stages: stages,
                 stageToFiles: stageToFiles,

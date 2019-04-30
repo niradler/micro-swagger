@@ -1,13 +1,13 @@
 {
   "name": "micro-swagger",
-  "version": "0.1.5",
+  "version": "0.1.8",
   "description": "Import swagger files from aws api gateway, and create a swagger ui for them.",
-  "main": "index.js",
+  "main": "build/index.js",
   "bin": {
     "micro-swagger": "micro-swagger.js"
   },
   "scripts": {
-    "start": "nodemon --exec babel-node ./index.js",
+    "start": "nodemon --exec babel-node ./src/index.js",
     "build": "babel src --out-dir ./build",
     "deploy": "npm run build && npm publish"
   },

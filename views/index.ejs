@@ -63,7 +63,13 @@
 
         <% if (stages && stages.length === 0) { %>
         <div class="content">
-          <p class="has-text-centered">Stages not found! <a onclick="refreshFiles()">Refresh</a></p>
+          <p class="has-text-centered">Stages not found!
+            <span id="msg">
+
+            </span>
+
+
+          </p>
         </div>
 
         <% } %>
@@ -77,7 +83,11 @@
   <script>
     let refreshNeeded = <%= refresh  %>;
 
-    if (refreshNeeded) refreshFiles();
+    if (refreshNeeded) {
+      refreshFiles();
+      const msg = 'fetching...'
+      document.querySelector('#msg').innerHTML = msg;
+    }
 
     function isLoading(status) {
       if (status) {
@@ -92,6 +102,7 @@
       axios.get('/import')
         .then(function (response) {
           isLoading(false);
+          location.reload();
         })
         .catch(function (error) {
           alert(error.message);

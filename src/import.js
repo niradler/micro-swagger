@@ -7,10 +7,10 @@ const {
 } = require("apigateway-export-tool");
 const fs = require("fs-extra");
 const fileExt = ".json";
-const dir = config.getEnv("static");
 
 const importFiles = async () => {
   try {
+    const dir = config.getEnv("static");
     const apis = await getRestApis();
     config.setEnv("apis", apis.items);
     const data = [];

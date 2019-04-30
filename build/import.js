@@ -16,7 +16,6 @@ var _require = require("apigateway-export-tool"),
 var fs = require("fs-extra");
 
 var fileExt = ".json";
-var dir = config.getEnv("static");
 
 var importFiles =
 /*#__PURE__*/
@@ -24,48 +23,49 @@ function () {
   var _ref = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee() {
-    var apis, data, i, item, stages, _i, stage, pathToSave, d;
+    var dir, apis, data, i, item, stages, _i, stage, pathToSave, d;
 
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
-            _context.next = 3;
+            dir = config.getEnv("static");
+            _context.next = 4;
             return getRestApis();
 
-          case 3:
+          case 4:
             apis = _context.sent;
             config.setEnv("apis", apis.items);
             data = [];
             i = 0;
 
-          case 7:
+          case 8:
             if (!(i < apis.items.length)) {
-              _context.next = 27;
+              _context.next = 28;
               break;
             }
 
             item = apis.items[i];
-            _context.next = 11;
+            _context.next = 12;
             return getStages({
               restApiId: item.id
             });
 
-          case 11:
+          case 12:
             stages = _context.sent;
             _i = 0;
 
-          case 13:
+          case 14:
             if (!(_i < stages.item.length)) {
-              _context.next = 24;
+              _context.next = 25;
               break;
             }
 
             stage = stages.item[_i];
             pathToSave = path.join(dir, "stages/".concat(stage.stageName));
             fs.ensureDirSync(pathToSave);
-            _context.next = 19;
+            _context.next = 20;
             return getExportAndSave({
               restApiId: item.id,
               stageName: stage.stageName
@@ -73,7 +73,7 @@ function () {
               fixBasePath: true
             });
 
-          case 19:
+          case 20:
             d = {
               id: item.id,
               name: item.name,
@@ -83,31 +83,31 @@ function () {
             };
             data.push(d);
 
-          case 21:
+          case 22:
             _i++;
-            _context.next = 13;
+            _context.next = 14;
             break;
 
-          case 24:
+          case 25:
             i++;
-            _context.next = 7;
+            _context.next = 8;
             break;
 
-          case 27:
+          case 28:
             config.setEnv("data", data);
             return _context.abrupt("return", true);
 
-          case 31:
-            _context.prev = 31;
+          case 32:
+            _context.prev = 32;
             _context.t0 = _context["catch"](0);
             throw _context.t0;
 
-          case 34:
+          case 35:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 31]]);
+    }, _callee, null, [[0, 32]]);
   }));
 
   return function importFiles() {

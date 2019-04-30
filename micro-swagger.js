@@ -27,7 +27,7 @@ program
 
     config.setEnv("port", port);
 
-    run(`node ${__dirname}/index.js`)
+    run(`node ${__dirname}/build/index.js`)
       .then(o => console.log(o))
       .catch(e => console.log(e));
     console.log(`micro-swagger running on port ${port}!`);
