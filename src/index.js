@@ -1,10 +1,10 @@
-const config = require("./config");
-const init = require("./init");
+const config = require("../config");
+const init = require("../init");
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const router = require("./build/router");
+const router = require("./router");
 const cors = require("cors");
 const open = require("open");
 
@@ -13,7 +13,7 @@ const staticPath = config.getEnv("static");
 
 const app = express();
 
-app.set("views", path.join(__dirname, "views"));
+app.set("views", path.join(__dirname, "..", "views"));
 app.set("view engine", "ejs");
 
 app.use(cors());

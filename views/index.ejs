@@ -1,69 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>micro swagger</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
-    <meta name="theme-color" content="#ffffff">
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.css" />
-     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-    <style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>micro swagger</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.css" />
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  <style>
     .top {
-    margin-top: 5%;
+      margin-top: 4%;
     }
-    .center {
-      display: flex;
-    align-items: center;
-    justify-content: center;
-    }
-    </style>
+  </style>
 </head>
+
 <body>
-    <nav class="navbar center" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-          <a class="" href="/">
-            <h1 class="title">micro swagger</h1>
-            <!-- <img src="/assets/logo.png"> -->
-          </a>
-          </div>
-          </nav>
-<div class="container">
 
-<div class="top">
+  <section class="hero is-dark">
+    <div class="hero-body">
+      <div class="container">
+        <a href="/">
+          <h1 class="title">
+            micro swagger
+          </h1>
+        </a>
+        <h2 class="subtitle">
+          Amazon API Gateway documentations ui.
+        </h2>
+      </div>
+    </div>
+  </section>
 
-    <aside class="menu">
-  <p class="menu-label">
-    <a href="/import"><i class="fas fa-sync-alt"></i></a> Swagger Files 
-  </p>
-  <ul class="menu-list">
-   <% stages.types.forEach(function(stage){ %>
-    <li><a onclick="revealStage('<%- stage %>')"><%- stage %></a>
-<ul style="display: none;" id="<%- stage %>">
-<% for (i in stages[stage].names){ %>
-<li style="display: flex;"><a href="/swagger?path=<%- stages[stage].files[i] %>"><%- stages[stage].names[i] %></a> <a href="/swagger-editor?path=<%- stages[stage].files[i] %>"><i class="fas fa-edit"></i></a>
-<% }; %>
-</ul>
-</li>
-  <% }); %>
+  <div class="container">
+    <div class="top">
+      <aside class="menu">
+        <p class="menu-label">
+          <a onclick="refreshFiles()"><i id="loader" class="fas fa-sync-alt"></i></a> Swagger Files
+        </p>
 
-  </ul>
-</aside>
-</div>
+        <% if (stages && stages.length > 0) { %>
+        <ul class="menu-list">
+          <% stages.forEach(function(stage){ %>
+          <li><a onclick="revealStage('<%- stage %>')"><%- stage %></a>
+            <ul style="display: none;" id="<%- stage %>">
+              <% for (i in stageToFiles[stage]){ %>
+              <li style="display: flex;"><a
+                  href="/swagger?path=<%- stageToFiles[stage][i].url %>&id=<%- stageToFiles[stage][i].id %>">
+                  <%- stageToFiles[stage][i].name %></a>
+                <a href="/swagger-editor?path=<%- stageToFiles[stage][i].url %>&id=<%- stageToFiles[stage][i].id %>"><i
+                    class="fas fa-edit"></i></a>
+                <% }; %>
+            </ul>
+          </li>
+          <% }); %>
+        </ul>
+        <% } %>
 
-<script>
-function revealStage(stage){
-  const list = document.querySelector('#' + stage);
-  if(list.style.display == 'none'){
-    list.style.display = 'block';
-  }
-  else{
-    list.style.display = 'none';
-  }
-}
-</script>
+        <% if (stages && stages.length === 0) { %>
+        <div class="content">
+          <p class="has-text-centered">Stages not found!
+            <br>
+            <span id="msg"></span>
+          </p>
+        </div>
+
+        <% } %>
+
+      </aside>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <script>
+    let refreshNeeded = <%= refresh  %>;
+
+    if (refreshNeeded) {
+      refreshFiles();
+      const msg = 'fetching...'
+      document.querySelector('#msg').innerHTML = msg;
+    }
+
+    function isLoading(status) {
+      if (status) {
+        document.querySelector("#loader").classList.add("fa-spin")
+      } else {
+        document.querySelector("#loader").classList.remove("fa-spin")
+      }
+    }
+
+    function refreshFiles() {
+      isLoading(true);
+      axios.get('/import')
+        .then(function (response) {
+          isLoading(false);
+          location.reload();
+        })
+        .catch(function (error) {
+          alert(error.message);
+          isLoading(false);
+        });
+    }
+
+    function revealStage(stage) {
+      const list = document.querySelector('#' + stage);
+      if (list.style.display == 'none') {
+        list.style.display = 'block';
+      }
+      else {
+        list.style.display = 'none';
+      }
+    }
+  </script>
 </body>
+
 </html>

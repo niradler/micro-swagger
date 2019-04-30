@@ -1,12 +1,10 @@
 require("@babel/polyfill");
-const utils = require("./utils");
 const importFiles = require("./import");
-const exportByTitle = require("./exportByTitle");
+const exportById = require("./exportById");
 const router = require("express").Router();
 const fs = require("fs");
 const Path = require("path");
 const config = require("../config");
-const fileExt = ".json";
 
 const handleError = (error, req, res) => {
   res.locals.message = error.message;
@@ -18,34 +16,37 @@ const handleError = (error, req, res) => {
 router.get("/import", async (req, res) => {
   try {
     await importFiles();
-    res.redirect("/");
+    res.json({
+      status: "success!"
+    });
   } catch (error) {
+    console.log({ error });
     handleError(error, req, res);
   }
 });
 
 router.get("/", async (req, res) => {
   try {
-    const stages = {};
-    const stagesPath = Path.join(config.getEnv("static"), "stages");
-    stages.types = await utils.getFolderFilesList(stagesPath);
-    if (stages.types.length == 0) {
-      await importFiles();
-      stages.types = await utils.getFolderFilesList(stagesPath);
+    const data = config.getEnv("data");
+    let refresh = false;
+    let stages = [];
+    let stageToFiles = {};
+    if (!data) {
+      refresh = true;
+      config.setEnv("data", []);
+    } else {
+      stages = [...new Set(data.map(d => d.stage))];
+      stageToFiles = data.reduce(
+        (obj, d) =>
+          obj[d.stage]
+            ? { ...obj, [d.stage]: [...obj[d.stage], d] }
+            : { ...obj, [d.stage]: [d] },
+        {}
+      );
+      stages = stages.filter(s => stageToFiles[s]);
     }
-    for (let stage of stages.types) {
-      const files = await utils.getFilesList(`${stagesPath}/${stage}`);
-      stages[stage] = {
-        files: files.map(f => `/${stage}/${f}`),
-        names: []
-      };
-      for (let pathToFile of stages[stage].files) {
-        const json = await utils.getFile(stagesPath + pathToFile);
-        const obj = JSON.parse(json);
-        stages[stage].names.push(obj.info.title);
-      }
-    }
-    res.render("index", { stages });
+
+    res.render("index", { stages, stageToFiles, refresh });
   } catch (error) {
     console.log({ error });
     handleError(error, req, res);
@@ -54,16 +55,15 @@ router.get("/", async (req, res) => {
 
 router.get("/swagger", function(req, res) {
   const { path } = req.query;
-  const stagesPath = "/stages";
 
-  res.render("swagger", { configFileLocation: stagesPath + path });
+  res.render("swagger", { swaggerFileLocation: path });
 });
 
 router.get("/swagger-editor", function(req, res) {
   const { path } = req.query;
-  const stagesPath = "/stages";
-
-  res.render("swagger-editor", { configFileLocation: stagesPath + path });
+  const data = config.getEnv("data");
+  const item = data.find(d => d.url === path);
+  res.render("swagger-editor", { swaggerFileLocation: path, id: item.id });
 });
 
 router.put("/editor", function(req, res) {
@@ -72,16 +72,16 @@ router.put("/editor", function(req, res) {
     Path.join(config.getEnv("static"), path),
     Object.keys(req.body)[0]
   );
-  res.send("ok");
+  res.json({
+    status: "success!"
+  });
 });
 
 router.get("/update", async (req, res) => {
   try {
-    const { path } = req.query;
-    let title = path.split("/");
-    title = title[title.length - 1];
-    title = title.replace(fileExt, "");
-    await exportByTitle(title, Path.join(config.getEnv("static"), path));
+    const { id } = req.query;
+
+    await exportById(id);
     await importFiles();
     res.redirect("/");
   } catch (error) {
