@@ -33,11 +33,11 @@
     "xdg-basedir": "^3.0.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.4.4",
-    "@babel/core": "^7.4.5",
-    "@babel/node": "^7.4.5",
-    "@babel/preset-env": "^7.4.5",
-    "nodemon": "^1.19.1"
+    "@babel/cli": "7.8.4",
+    "@babel/core": "7.8.4",
+    "@babel/node": "7.8.4",
+    "@babel/preset-env": "7.8.4",
+    "nodemon": "1.19.4"
   },
   "repository": {
     "type": "git",
