@@ -30,7 +30,7 @@
     "fs-extra": "^7.0.1",
     "morgan": "^1.9.1",
     "open": "^6.3.0",
-    "xdg-basedir": "^3.0.0"
+    "xdg-basedir": "^4.0.0"
   },
   "devDependencies": {
     "@babel/cli": "7.8.4",
