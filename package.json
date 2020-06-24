@@ -37,7 +37,7 @@
     "@babel/core": "7.9.6",
     "@babel/node": "7.8.7",
     "@babel/preset-env": "7.9.6",
-    "nodemon": "2.0.2"
+    "nodemon": "2.0.4"
   },
   "repository": {
     "type": "git",
