@@ -11,61 +11,71 @@ var config = require("../config");
 var _require = require("apigateway-export-tool"),
     getExportAndSave = _require.getExportAndSave,
     getRestApis = _require.getRestApis,
-    getStages = _require.getStages;
+    getStages = _require.getStages,
+    setAwsConfig = _require.setAwsConfig,
+    iniFileCredentials = _require.iniFileCredentials;
 
 var fs = require("fs-extra");
 
 var fileExt = ".json";
 
-var importFiles =
-/*#__PURE__*/
-function () {
-  var _ref = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee() {
-    var dir, apis, data, i, item, stages, _i, stage, pathToSave, d;
+var importFiles = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+    var dir, region, profile, awsConfig, apis, data, i, item, stages, _i, stage, pathToSave, d;
 
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
+            console.log("Importing files...");
             dir = config.getEnv("static");
-            _context.next = 4;
+            region = config.getEnv("region");
+            profile = config.getEnv("profile");
+            awsConfig = {};
+            if (region) awsConfig.region = region;
+            if (profile) awsConfig.credentials = iniFileCredentials(profile);
+            console.log({
+              awsConfig: awsConfig
+            });
+            setAwsConfig(awsConfig);
+            _context.next = 12;
             return getRestApis();
 
-          case 4:
+          case 12:
             apis = _context.sent;
+            console.log(apis);
             config.setEnv("apis", apis.items);
             data = [];
             i = 0;
 
-          case 8:
+          case 17:
             if (!(i < apis.items.length)) {
-              _context.next = 28;
+              _context.next = 39;
               break;
             }
 
             item = apis.items[i];
-            _context.next = 12;
+            _context.next = 21;
             return getStages({
               restApiId: item.id
             });
 
-          case 12:
+          case 21:
             stages = _context.sent;
+            console.log(stages);
             _i = 0;
 
-          case 14:
+          case 24:
             if (!(_i < stages.item.length)) {
-              _context.next = 25;
+              _context.next = 36;
               break;
             }
 
             stage = stages.item[_i];
             pathToSave = path.join(dir, "stages/".concat(stage.stageName));
             fs.ensureDirSync(pathToSave);
-            _context.next = 20;
+            _context.next = 30;
             return getExportAndSave({
               restApiId: item.id,
               stageName: stage.stageName
@@ -73,7 +83,7 @@ function () {
               fixBasePath: true
             });
 
-          case 20:
+          case 30:
             d = {
               id: item.id,
               name: item.name,
@@ -81,33 +91,34 @@ function () {
               path: path.join(pathToSave, item.name + fileExt),
               stage: stage.stageName
             };
+            console.log(d);
             data.push(d);
 
-          case 22:
+          case 33:
             _i++;
-            _context.next = 14;
+            _context.next = 24;
             break;
 
-          case 25:
+          case 36:
             i++;
-            _context.next = 8;
+            _context.next = 17;
             break;
 
-          case 28:
+          case 39:
             config.setEnv("data", data);
             return _context.abrupt("return", true);
 
-          case 32:
-            _context.prev = 32;
+          case 43:
+            _context.prev = 43;
             _context.t0 = _context["catch"](0);
             throw _context.t0;
 
-          case 35:
+          case 46:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 32]]);
+    }, _callee, null, [[0, 43]]);
   }));
 
   return function importFiles() {

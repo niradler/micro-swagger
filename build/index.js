@@ -50,11 +50,7 @@ app.use(function (err, req, res, next) {
 });
 app.use("/", router);
 var port = config.getEnv("port") || 3055;
-app.listen(port,
-/*#__PURE__*/
-_asyncToGenerator(
-/*#__PURE__*/
-regeneratorRuntime.mark(function _callee() {
+app.listen(port, /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
   return regeneratorRuntime.wrap(function _callee$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {

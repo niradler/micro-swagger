@@ -7,7 +7,7 @@ const init = require("./init");
 
 init();
 
-const run = cmd =>
+const run = (cmd) =>
   new Promise((resolve, reject) => {
     exec(cmd, (error, stdout, stderr) => {
       if (error !== null) {
@@ -22,20 +22,24 @@ program
   .command("start")
   .description("Start micro-swagger server.")
   .option("-p, --port [port]", "port", config.getEnv("port") || 3055)
-  .action(args => {
-    const { port } = args;
+  .option("--region [region]", "AWS region", "")
+  .option("--profile [profile]", "AWS ini file profile", "")
+  .action((args) => {
+    const { port, region, profile } = args;
 
-    config.setEnv("port", port);
+    if (port) config.setEnv("port", port);
+    if (region) config.setEnv("region", region);
+    if (profile) config.setEnv("profile", profile);
 
     run(`node ${__dirname}/build/index.js`)
-      .then(o => console.log(o))
-      .catch(e => console.log(e));
+      .then((o) => console.log(o))
+      .catch((e) => console.log(e));
     console.log(`micro-swagger running on port ${port}!`);
   });
 
 program.parse(process.argv);
 
-program.on("command:*", function() {
+program.on("command:*", function () {
   console.error(
     "Invalid command: %s\nSee --help for a list of available commands.",
     program.args.join(" ")
