@@ -13,6 +13,8 @@ Usage: micro-swagger [options] [command]
 
 Options:
   -V, --version    output the version number
+  --region         aws region
+  --profile        aws profile
   -h, --help       output usage information
 
 Commands:
@@ -23,7 +25,7 @@ Commands:
 micro-swagger start -p 3055
 ```
 
-* visit http://localhost:3055
+- visit http://localhost:3055
 
 ### AWS credentials
 
